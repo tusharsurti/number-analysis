@@ -171,5 +171,6 @@ The application is designed with a reactive, service-oriented architecture, with
 5. The `AnalysisController` combines the results into an `AnalysisResponse` and returns it as a JSON response.
 
 The entire process is non-blocking, from the request to the response, thanks to the use of Spring WebFlux and Project Reactor.
+Note: I've used copilot for reactive code snippets for reference but made sure to understand and modify as needed. 
  
  
