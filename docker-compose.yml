@@ -1,0 +1,29 @@
+version: '3.8'
+services:
+  zipkin:
+    image: openzipkin/zipkin
+    ports:
+      - "9411:9411"
+  admin-server:
+    image: codecentric/spring-boot-admin:3.3.6
+    ports:
+      - "9090:8080"
+  number-analysis:
+    build: .
+    ports:
+      - "8080:8080"
+      - "9091:9091"
+    depends_on:
+      - zipkin
+      - admin-server
+    environment:
+      - SPRING_APPLICATION_NAME=number-analysis
+      - SPRING_BOOT_ADMIN_CLIENT_URL=http://admin-server:8080
+      - SPRING_BOOT_ADMIN_CLIENT_USERNAME=admin
+      - SPRING_BOOT_ADMIN_CLIENT_PASSWORD=password
+      - MANAGEMENT_TRACING_SAMPLING_PROBABILITY=1.0
+      - MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://zipkin:9411/api/v2/spans
+      - APP_NUMBER_OF_ARRAYS=10
+      - APP_ARRAY_SIZE=50
+      - APP_RANGE_MIN=0
+      - APP_RANGE_MAX=1000
