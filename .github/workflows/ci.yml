@@ -18,5 +18,15 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: maven
-      - name: Build with Maven
+      - name: Build, Test, and Package with Maven
         run: mvn -B verify --file pom.xml
+      - name: Run Docker Compose
+        run: docker-compose up -d
+      - name: Health Check
+        run: |
+          # Wait for the service to be healthy. The management port is 9091.
+          # The health endpoint is public, so no auth is needed.
+          timeout 60s bash -c 'until curl -s http://localhost:9091/actuator/health | grep UP; do sleep 1; done'
+      - name: Clean up Docker Compose
+        if: always()
+        run: docker-compose down
