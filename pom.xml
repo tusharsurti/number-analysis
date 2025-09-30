@@ -103,6 +103,18 @@
             <plugin>
                 <groupId>io.github.git-commit-id</groupId>
                 <artifactId>git-commit-id-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>revision</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>revision</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <skip>true</skip> <!-- Set this via profile or environment -->
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.pitest</groupId>
